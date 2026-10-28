@@ -19,7 +19,7 @@ import { devices } from './devices.mjs';
 import { startSession, observe, act, endSession, endAllSessions, listSessions, getSession, assertChecks, runFlow, addRoute, clearRoutes } from './session.mjs';
 
 const NAME = 'bezlo';
-const VERSION = '0.1.0';
+const VERSION = '0.1.1';
 const OUT_DIR = process.env.RP_OUT_DIR || path.join(path.dirname(new URL(import.meta.url).pathname), 'out');
 
 const tools = [
