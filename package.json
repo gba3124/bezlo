@@ -1,0 +1,23 @@
+{
+  "name": "bezlo-mcp-repo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bezlo open agent layer: MCP server, CLI and GitHub Action for device-preset mobile screenshots, layout diagnostics and see-and-act sessions.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gba3124/bezlo.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "list": "node mcp/cli.mjs --list",
+    "check": "node mcp/cli.mjs --list > /dev/null && echo ok"
+  },
+  "devDependencies": {
+    "playwright-core": "1.64.1",
+    "playwright": "1.64.1"
+  }
+}

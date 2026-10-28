@@ -1,0 +1,6 @@
+node_modules/
+.bezlo/
+mcp/out/
+dist/
+*.log
+.DS_Store

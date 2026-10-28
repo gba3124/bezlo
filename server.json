@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.gba3124/bezlo-mcp",
+  "title": "Bezlo MCP",
+  "description": "Bezlo MCP: device-preset mobile screenshots, layout diagnostics, see-and-act sessions.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/gba3124/bezlo",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "bezlo-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

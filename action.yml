@@ -1,0 +1,100 @@
+name: 'Bezlo AI test'
+description: 'Bezlo — run an AI-authored flow on a mobile device preset (iPhone/iPad/Android): screenshots, layout diagnostics, console/network errors, JUnit + video.'
+author: 'Bezlo'
+branding:
+  icon: 'smartphone'
+  color: 'blue'
+inputs:
+  url:
+    description: 'URL to test (http/https).'
+    required: true
+  device:
+    description: 'Device id or name (list: node mcp/cli.mjs --list). Default iphone16.'
+    required: false
+    default: 'iphone16'
+  engine:
+    description: 'chromium (default, records video) or webkit (Safari-flavoured approximation, no recording).'
+    required: false
+    default: 'chromium'
+  steps:
+    description: 'JSON array of actions, e.g. [{"type":"click","text":"Sign in"}]'
+    required: false
+    default: '[]'
+  asserts:
+    description: 'JSON array of assertions, e.g. [{"type":"noOverflow"},{"type":"noConsoleErrors"}]'
+    required: false
+    default: '[]'
+  record:
+    description: 'Record an mp4 + gif of the flow (true/false).'
+    required: false
+    default: 'false'
+  screenshots:
+    description: 'final | all | none'
+    required: false
+    default: 'final'
+  output-dir:
+    description: 'Artifact directory relative to the workspace.'
+    required: false
+    default: 'bezlo-artifacts'
+  upload-artifacts:
+    description: 'Upload the artifact directory with actions/upload-artifact.'
+    required: false
+    default: 'true'
+outputs:
+  pass:
+    description: 'true when every step and assertion passed.'
+    value: ${{ steps.run.outputs.pass }}
+  report:
+    description: 'Path to report.json'
+    value: ${{ steps.run.outputs.report }}
+  junit:
+    description: 'Path to junit.xml'
+    value: ${{ steps.run.outputs.junit }}
+  video:
+    description: 'Path to the recorded mp4 (when record=true)'
+    value: ${{ steps.run.outputs.video }}
+  gif:
+    description: 'Path to the recorded gif (when record=true)'
+    value: ${{ steps.run.outputs.gif }}
+  screenshot:
+    description: 'Path to the final screenshot'
+    value: ${{ steps.run.outputs.screenshot }}
+  artifacts:
+    description: 'Artifact directory'
+    value: ${{ steps.run.outputs.artifacts }}
+runs:
+  using: composite
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install dependencies + browser
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        npm install --no-audit --no-fund
+        npx playwright install chromium
+        CHROME="$(node --input-type=module -e "import { chromium } from 'playwright-core'; console.log(chromium.executablePath())")"
+        echo "RP_CHROME=$CHROME" >> "$GITHUB_ENV"
+    - name: Run flow
+      id: run
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        INPUT_URL: ${{ inputs.url }}
+        INPUT_DEVICE: ${{ inputs.device }}
+        INPUT_ENGINE: ${{ inputs.engine }}
+        INPUT_STEPS: ${{ inputs.steps }}
+        INPUT_ASSERTS: ${{ inputs.asserts }}
+        INPUT_RECORD: ${{ inputs.record }}
+        INPUT_SCREENSHOTS: ${{ inputs.screenshots }}
+        INPUT_OUTPUT_DIR: ${{ inputs.output-dir }}
+      run: node mcp/action-run.mjs
+    - name: Upload Bezlo AI test artifacts
+      if: ${{ always() && inputs.upload-artifacts == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: bezlo-ai-test
+        path: ${{ inputs.output-dir }}
+        if-no-files-found: warn
