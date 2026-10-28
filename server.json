@@ -3,7 +3,7 @@
   "name": "io.github.gba3124/bezlo-mcp",
   "title": "Bezlo MCP",
   "description": "Bezlo MCP: device-preset mobile screenshots, layout diagnostics, see-and-act sessions.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/gba3124/bezlo",
     "source": "github"
@@ -12,7 +12,7 @@
     {
       "registryType": "npm",
       "identifier": "bezlo-mcp",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "transport": {
         "type": "stdio"
       }

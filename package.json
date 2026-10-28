@@ -1,6 +1,6 @@
 {
   "name": "bezlo-mcp-repo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Bezlo open agent layer: MCP server, CLI and GitHub Action for device-preset mobile screenshots, layout diagnostics and see-and-act sessions.",
   "type": "module",
